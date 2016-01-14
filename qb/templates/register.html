@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+	注册
+{% endblock %}
+{% block content %}
+	<div class="container">
+        <div class="row">
+            <div class="col-xs-3 col-md-4"> </div>
+            <div class="col-xs-6 col-md-4">
+	        {% if registered %}
+		        <h4>Thank you for registering!<h4>
+		        <a href="{% url "qb.views.index" %}">Return to the homepage.</a><br />
+	        {% else %}
+		        <h2>注册</h2>
+		        <form class="form-signin" method="post" action="/register/">
+		            {% csrf_token %}
+		            {{ user_form.as_p }}
+		            <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+		        </form>
+	        {% endif %}
+	    	</div>
+	    	<div class="col-xs-3 col-md-4"> </div>
+	    </div>
+	</div>
+
+{% endblock %}

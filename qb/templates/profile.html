@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+	index
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+            <div class="col-xs-1 col-md-2"> </div>
+            <div class="col-xs-5 col-md-4">
+				<h4>我的糗事</h4>
+				{% for story in stories %}
+					<div class="qbbox">
+						{% if not story.checked %}
+							<h4>【还未审核】</h4>
+						{% else %}
+							{% if not story.passed %}
+								<h4>【审核未通过】</h4>
+							{% endif %}
+						{% endif %}
+						<h6>{{ story.published_date }}</h6>
+						<a class="story-item" href="{% url "qb.views.comment" pk=story.pk %}">{{ story.context }}</a>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="col-xs-5 col-md-4">
+				<h4>我的评论</h4>
+				{% for comment in comments %}
+					<div class="combox">
+						<a class="story-item" href="{% url "qb.views.comment" pk=comment.story_id %}">{{ comment.comment }}</a>
+						<p>{{ comment.comment_date }}</p>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="col-xs-1 col-md-2"> </div>
+		</div>
+	</div>
+
+{% endblock %}

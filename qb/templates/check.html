@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+	审稿
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+            <div class="col-xs-1 col-md-3"> </div>
+            <div class="col-xs-10 col-md-6">
+            	{% if user.is_superuser %}
+	            	<h4>我是管理员，苦逼审稿中……</h4>
+	            	{% if story %}
+						<div class="qbbox">
+							<h5>{{ story.user.username }}</h5>
+							<h6>{{ story.published_date }}</h6>
+							<p>{{ story.context }}</p>
+						</div>
+		            	<form class="form-signin" method="post" action="">
+			                {% csrf_token %}
+							<input name="story_pk" type="hidden" value="{{ story.pk }}"> 
+							<label class="radio-inline">
+							<input type="radio" name="passed" value="True"> 不错，挺搞笑
+							</label>
+							<label class="radio-inline">
+							<input type="radio" name="passed" value="False"> 不糗，不给过
+							</label><p></p>
+							<button class="btn btn-lg btn-primary btn-block" type="submit">确认</button>
+						</form>
+					{% else %}
+						<h4>所有投稿都已审核完毕，您可以休息了</h4>
+					{% endif %}
+            	{% else %}
+					<h4>管理员专属领地，请移步 <a href="{% url "qb.views.index" %}">主页</a></h4>
+				{% endif %}
+			</div>
+			<div class="col-xs-1 col-md-3"> </div>
+		</div>
+	</div>
+
+{% endblock %}

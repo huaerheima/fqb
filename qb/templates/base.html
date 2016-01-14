@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<html>
+
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	</head>
+
+	<body>
+		<div class="blog-masthead">
+			<div class="container">
+				<nav class="blog-nav navbar-right">
+					{% if user.is_authenticated %}
+						{% if user.is_superuser %}
+							<h5 class="blog-nav-item">{{ user.username }}</h5>
+				  			<a class="blog-nav-item" href="{% url "qb.views.check" %}">审稿</a>
+						{% else %}
+				  			<a class="blog-nav-item" href="{% url "qb.views.index" %}">主页</a>
+							<a class="blog-nav-item" href="{% url "qb.views.profile" %}">{{ user.username }}!</a>
+					  		<a class="blog-nav-item" href="{% url "qb.views.publish" %}">投稿</a>
+						{% endif %}
+				  		<a class="blog-nav-item" href="{% url "qb.views.user_logout" %}">退出</a>
+					{% else %}
+						<a class="blog-nav-item" href="{% url "qb.views.user_login" %}">登录</a>
+				  		<a class="blog-nav-item" href="{% url "qb.views.register" %}">注册</a>
+					{% endif %}
+				</nav>
+			</div>
+	    </div>
+		{% block content %}
+		{% endblock %}
+
+		<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+	</body>
+
+</html>
